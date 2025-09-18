@@ -1,0 +1,53 @@
+import axios from 'axios';
+
+const API_URL = 'http://localhost:8000/api';
+
+// Create axios instance with base URL
+const api = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
+// Add token to requests if available
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Handle response errors globally
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // Handle token expiration
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      // Redirect to login if needed
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
+// Authentication services
+export const authService = {
+  login: (credentials) => api.post('/login', credentials),
+  register: (userData) => api.post('/register', userData),
+  getCurrentUser: () => api.get('/user'),
+  logout: () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  }
+};
+
+export default api;
