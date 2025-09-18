@@ -2,6 +2,19 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:8000/api';
 
+export const getAllSweets = async () => {
+    try {
+        const response = await fetch(`${API_URL}/sweets`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch sweets');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching sweets:', error);
+        throw error;
+    }
+};
+
 // Create axios instance with base URL
 const api = axios.create({
   baseURL: API_URL,
