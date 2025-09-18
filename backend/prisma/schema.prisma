@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  password   String
+  role       String   @default("user") // "user" | "admin"
+  createdAt  DateTime @default(now())
+  purchases  Purchase[]
+}
+
+model Sweet {
+  id        String   @id @default(uuid())
+  name      String
+  category  String
+  price     Decimal  @db.Decimal(10,2)
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  purchases Purchase[]
+}
+
+model Purchase {
+  id        String   @id @default(uuid())
+  userId    String
+  sweetId   String
+  quantity  Int
+  total     Decimal  @db.Decimal(10,2)
+  createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id])
+  sweet Sweet @relation(fields: [sweetId], references: [id])
+}

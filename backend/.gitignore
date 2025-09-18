@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+.vscode
+coverage
+cypress/videos
+cypress/screenshots
+
+/generated/prisma
+
+/generated/prisma
