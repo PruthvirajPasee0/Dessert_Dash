@@ -1,0 +1,86 @@
+.admin-dashboard {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.sweet-form {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 20px;
+    max-width: 500px;
+}
+
+.sweet-form input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.sweet-form button {
+    padding: 8px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.sweet-form button[type="button"] {
+    background-color: #f44336;
+}
+
+.error-message {
+    color: #f44336;
+    margin-bottom: 10px;
+}
+
+.sweets-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.sweets-list th,
+.sweets-list td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.sweets-list th {
+    background-color: #f5f5f5;
+}
+
+.sweets-list button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.sweets-list button:nth-child(1) {
+    background-color: #2196F3;
+    color: white;
+}
+
+.sweets-list button:nth-child(2) {
+    background-color: #FF9800;
+    color: white;
+}
+
+.sweets-list button:nth-child(3) {
+    background-color: #f44336;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .sweets-list {
+        overflow-x: auto;
+    }
+
+    .sweet-form {
+        max-width: 100%;
+    }
+}

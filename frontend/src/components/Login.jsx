@@ -5,8 +5,11 @@ import { authService } from '../services/api';
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password: '',
+    isAdmin: false,
+    secretKey: ''
   });
+  const [showAdminFields, setShowAdminFields] = useState(false);
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,6 +38,11 @@ const Login = () => {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
+    }
+
+    // Secret key validation for admin registration
+    if (showAdminFields && !formData.secretKey) {
+      newErrors.secretKey = 'Secret key is required for admin registration';
     }
     
     setErrors(newErrors);
@@ -68,7 +76,12 @@ const Login = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await authService.login(formData);
+      const requestData = {
+        ...formData,
+        isAdmin: showAdminFields
+      };
+
+      const response = await authService.login(requestData);
       
       // Store token and user data in localStorage
       localStorage.setItem('token', response.data.token);
@@ -86,6 +99,11 @@ const Login = () => {
           ...errors,
           password: 'Invalid email or password'
         });
+      } else if (err.response?.status === 400 && err.response?.data?.message?.includes('secret key')) {
+        setErrors({
+          ...errors,
+          secretKey: 'Invalid secret key'
+        });
       }
     } finally {
       setIsSubmitting(false);
@@ -98,6 +116,42 @@ const Login = () => {
       {serverError && <div className="error-message">{serverError}</div>}
       
       <form onSubmit={handleSubmit} noValidate>
+        <div className="form-group">
+          <label>
+            <input
+              type="checkbox"
+              checked={showAdminFields}
+              onChange={(e) => {
+                setShowAdminFields(e.target.checked);
+                if (!e.target.checked) {
+                  setFormData(prev => ({
+                    ...prev,
+                    isAdmin: false,
+                    secretKey: ''
+                  }));
+                }
+              }}
+            />
+            Register as Admin
+          </label>
+        </div>
+
+        {showAdminFields && (
+          <div className="form-group">
+            <label htmlFor="secretKey">Admin Secret Key</label>
+            <input
+              type="password"
+              id="secretKey"
+              name="secretKey"
+              value={formData.secretKey}
+              onChange={handleChange}
+              className={errors.secretKey ? 'input-error' : ''}
+              required
+            />
+            {errors.secretKey && <div className="field-error">{errors.secretKey}</div>}
+          </div>
+        )}
+
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input

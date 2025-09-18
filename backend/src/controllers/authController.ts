@@ -6,10 +6,12 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || 'dessert-dash-secret-key';
 
+const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY || 'admin-secret-key-change-in-production';
+
 // Register a new user
 export const register = async (req: Request, res: Response) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, isAdmin, secretKey } = req.body;
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
@@ -18,6 +20,16 @@ export const register = async (req: Request, res: Response) => {
 
     if (existingUser) {
       return res.status(400).json({ message: 'User with this email already exists' });
+    }
+
+    // Validate admin registration
+    if (isAdmin) {
+      if (!secretKey) {
+        return res.status(400).json({ message: 'Secret key is required for admin registration' });
+      }
+      if (secretKey !== ADMIN_SECRET_KEY) {
+        return res.status(400).json({ message: 'Invalid secret key' });
+      }
     }
 
     // Hash password
@@ -30,7 +42,7 @@ export const register = async (req: Request, res: Response) => {
         name,
         email,
         password: hashedPassword,
-        role: 'user'
+        role: isAdmin ? 'admin' : 'user'
       }
     });
 
