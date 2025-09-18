@@ -5,9 +5,48 @@ const prisma = new PrismaClient();
 
 export const getAllSweets = async (req: Request, res: Response) => {
     try {
+        const { search, category, minPrice, maxPrice, sortBy, sortOrder } = req.query;
+
+        // Build where clause for filtering
+        let where: any = {};
+
+        // Search by name (case-insensitive)
+        if (search) {
+            where.name = {
+                contains: String(search)
+            };
+        }
+
+        // Filter by category
+        if (category) {
+            where.category = String(category);
+        }
+
+        // Filter by price range
+        if (minPrice || maxPrice) {
+            where.price = {};
+            if (minPrice) where.price.gte = parseFloat(String(minPrice));
+            if (maxPrice) where.price.lte = parseFloat(String(maxPrice));
+        }
+
+        // Build order by clause for sorting
+        let orderBy: any = { createdAt: 'desc' };
+        if (sortBy) {
+            const validSortFields = ['name', 'price'];
+            const validSortOrders = ['asc', 'desc'];
+            
+            if (validSortFields.includes(String(sortBy))) {
+                orderBy = {
+                    [String(sortBy)]: validSortOrders.includes(String(sortOrder)) ? sortOrder : 'asc'
+                };
+            }
+        }
+
         const sweets = await prisma.sweet.findMany({
-            orderBy: { createdAt: 'desc' }
+            where,
+            orderBy
         });
+
         res.json(sweets);
     } catch (error) {
         console.error('Error fetching sweets:', error);

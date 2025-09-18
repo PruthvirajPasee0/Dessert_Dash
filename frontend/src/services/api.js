@@ -2,9 +2,13 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:8000/api';
 
-export const getAllSweets = async () => {
+export const getAllSweets = async (queryParams) => {
     try {
-        const response = await fetch(`${API_URL}/sweets`);
+        const url = queryParams
+            ? `${API_URL}/sweets?${queryParams.toString()}`
+            : `${API_URL}/sweets`;
+            
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error('Failed to fetch sweets');
         }
