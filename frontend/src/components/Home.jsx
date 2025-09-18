@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/api';
+import Sweets from './Sweets';
 
 const Home = () => {
   const [user, setUser] = useState(null);
@@ -43,9 +44,12 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <h1>Welcome to Dessert Dash, {user.name}!</h1>
-      <p>You are logged in as: {user.email}</p>
-      <button onClick={handleLogout} className="btn-logout">Logout</button>
+      <div className="header">
+        <h1>Welcome to Dessert Dash, {user.name}!</h1>
+        <p>You are logged in as: {user.email}</p>
+        <button onClick={handleLogout} className="btn-logout">Logout</button>
+      </div>
+      <Sweets />
     </div>
   );
 };

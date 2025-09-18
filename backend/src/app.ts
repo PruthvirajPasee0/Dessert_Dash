@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
+import sweetRoutes from './routes/sweetRoutes';
+import userRoutes from './routes/userRoutes';
 
 // Load environment variables
 dotenv.config();
@@ -18,7 +20,9 @@ app.use(cors({
 app.use(express.json());
 
 // Routes
-app.use('/api', authRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/sweets', sweetRoutes);
+app.use('/api/users', userRoutes);
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

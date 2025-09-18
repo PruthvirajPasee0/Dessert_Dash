@@ -52,11 +52,16 @@ api.interceptors.response.use(
   }
 );
 
+// User services
+export const userService = {
+  getProfile: () => api.get('/users/profile')
+};
+
 // Authentication services
 export const authService = {
-  login: (credentials) => api.post('/login', credentials),
-  register: (userData) => api.post('/register', userData),
-  getCurrentUser: () => api.get('/user'),
+  login: (credentials) => api.post('/auth/login', credentials),
+  register: (userData) => api.post('/auth/register', userData),
+  getCurrentUser: () => api.get('/auth/user'),
   logout: () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
