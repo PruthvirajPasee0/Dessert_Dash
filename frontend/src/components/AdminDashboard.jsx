@@ -84,17 +84,20 @@ const AdminDashboard = () => {
     };
 
     const handleQuantityAdjust = async (id, currentQuantity) => {
-        const newQuantity = prompt('Enter new quantity:', currentQuantity);
-        if (newQuantity !== null && !isNaN(newQuantity)) {
-            try {
-                await sweetService.adjustQuantity(id, parseInt(newQuantity));
-                fetchSweets();
-                setError(null);
-            } catch (err) {
-                setError('Failed to adjust quantity');
-            }
-        }
-    };
+    const newQuantity = prompt('Enter new quantity: ', currentQuantity);
+    if (newQuantity === null || isNaN(newQuantity)) {
+        return;
+    }
+    
+    try {
+        await sweetService.adjustQuantity(id, parseInt(newQuantity));
+        await fetchSweets();
+        setError(null);
+    } catch (err) {
+        console.error('Error adjusting quantity:', err);
+        setError(err.response?.data?.message || 'Failed to adjust quantity');
+    }
+};
 
     if (loading) return <div className="loading-state">Loading sweets data...</div>;
 
@@ -172,7 +175,7 @@ const AdminDashboard = () => {
                                 <td>
                                     <button onClick={() => handleEdit(sweet)}>Edit</button>
                                     <button onClick={() => handleQuantityAdjust(sweet.id, sweet.quantity)}>
-                                        Adjust Quantity
+                                        Restock
                                     </button>
                                     <button onClick={() => handleDelete(sweet.id)}>Delete</button>
                                 </td>

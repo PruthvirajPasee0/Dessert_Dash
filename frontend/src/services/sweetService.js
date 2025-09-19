@@ -3,9 +3,10 @@ import api from './api';
 const API_URL = '/sweets';
 
 const sweetService = {
-    getAllSweets: async () => {
+    getAllSweets: async (queryParams = null) => {
         try {
-            const response = await api.get(API_URL);
+            const url = queryParams ? `${API_URL}?${new URLSearchParams(queryParams)}` : API_URL;
+            const response = await api.get(url);
             if (!response.data) {
                 console.error('No data received from API');
                 return [];

@@ -58,7 +58,12 @@ api.interceptors.response.use(
 
 // User services
 export const userService = {
-  getProfile: () => api.get('/users/profile')
+  getProfile: () => api.get('/users/profile'),
+  updateProfilePicture: (formData) => api.post('/users/profile/picture', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
 };
 
 // Authentication services

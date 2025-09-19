@@ -6,7 +6,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || 'dessert-dash-secret-key';
 
-const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY || 'admin-secret-key-change-in-production';
+const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY;
 
 // Register a new user
 export const register = async (req: Request, res: Response) => {

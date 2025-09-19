@@ -7,29 +7,24 @@ export const getAllSweets = async (req: Request, res: Response) => {
     try {
         const { search, category, minPrice, maxPrice, sortBy, sortOrder } = req.query;
 
-        // Build where clause for filtering
         let where: any = {};
 
-        // Search by name (case-insensitive)
         if (search) {
             where.name = {
                 contains: String(search)
             };
         }
 
-        // Filter by category
         if (category) {
             where.category = String(category);
         }
 
-        // Filter by price range
         if (minPrice || maxPrice) {
             where.price = {};
             if (minPrice) where.price.gte = parseFloat(String(minPrice));
             if (maxPrice) where.price.lte = parseFloat(String(maxPrice));
         }
 
-        // Build order by clause for sorting
         let orderBy: any = { createdAt: 'desc' };
         if (sortBy) {
             const validSortFields = ['name', 'price'];
@@ -44,7 +39,17 @@ export const getAllSweets = async (req: Request, res: Response) => {
 
         const sweets = await prisma.sweet.findMany({
             where,
-            orderBy
+            orderBy,
+            select: {
+                id: true,
+                name: true,
+                category: true,
+                price: true,
+                quantity: true,
+                imageUrl: true,
+                createdAt: true,
+                updatedAt: true
+            }
         });
 
         res.json(sweets);
@@ -56,10 +61,15 @@ export const getAllSweets = async (req: Request, res: Response) => {
 
 export const createSweet = async (req: Request, res: Response) => {
     try {
-        const { name, category, price, quantity } = req.body;
+        const { name, category, price, quantity, imageUrl } = req.body;
 
         if (!name || !category || !price || quantity === undefined) {
-            return res.status(400).json({ message: 'All fields are required' });
+            return res.status(400).json({ message: 'Required fields are missing' });
+        }
+
+        // Validate image URL if provided
+        if (imageUrl && !isValidUrl(imageUrl)) {
+            return res.status(400).json({ message: 'Invalid image URL' });
         }
 
         const sweet = await prisma.sweet.create({
@@ -67,7 +77,8 @@ export const createSweet = async (req: Request, res: Response) => {
                 name,
                 category,
                 price: parseFloat(price),
-                quantity: parseInt(quantity)
+                quantity: parseInt(quantity),
+                imageUrl
             }
         });
 
@@ -81,10 +92,15 @@ export const createSweet = async (req: Request, res: Response) => {
 export const updateSweet = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const { name, category, price, quantity } = req.body;
+        const { name, category, price, quantity, imageUrl } = req.body;
 
         if (!name || !category || !price || quantity === undefined) {
-            return res.status(400).json({ message: 'All fields are required' });
+            return res.status(400).json({ message: 'Required fields are missing' });
+        }
+
+        // Validate image URL if provided
+        if (imageUrl && !isValidUrl(imageUrl)) {
+            return res.status(400).json({ message: 'Invalid image URL' });
         }
 
         const sweet = await prisma.sweet.update({
@@ -93,7 +109,8 @@ export const updateSweet = async (req: Request, res: Response) => {
                 name,
                 category,
                 price: parseFloat(price),
-                quantity: parseInt(quantity)
+                quantity: parseInt(quantity),
+                imageUrl
             }
         });
 
@@ -137,5 +154,15 @@ export const adjustQuantity = async (req: Request, res: Response) => {
     } catch (error) {
         console.error('Error adjusting quantity:', error);
         res.status(500).json({ message: 'Failed to adjust quantity' });
+    }
+};
+
+// Helper function to validate URLs
+const isValidUrl = (url: string): boolean => {
+    try {
+        new URL(url);
+        return true;
+    } catch {
+        return false;
     }
 };

@@ -114,6 +114,23 @@ const Sweets = () => {
             <div className="sweets-grid">
                 {sweets.map((sweet) => (
                     <div key={sweet.id} className="sweet-card">
+                        <div className="sweet-image-container">
+                            {sweet.imageUrl ? (
+                                <img
+                                    src={sweet.imageUrl}
+                                    alt={sweet.name}
+                                    className="sweet-image"
+                                    onError={(e) => {
+                                        e.target.src = '/placeholder-sweet.png';
+                                        e.target.onerror = null;
+                                    }}
+                                />
+                            ) : (
+                                <div className="placeholder-image">
+                                    A Picture's Worth a Thousand Words But We Don't Have One Yet!
+                                </div>
+                            )}
+                        </div>
                         <h3>{sweet.name}</h3>
                         <p>Category: {sweet.category}</p>
                         <p>Price: ₹{Number(sweet.price).toFixed(2)}</p>
