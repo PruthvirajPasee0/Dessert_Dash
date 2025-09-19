@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/api';
 import Sweets from './Sweets';
+import './Home.css';
 
 const Home = () => {
   const [user, setUser] = useState(null);
@@ -44,10 +45,15 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <div className="header">
-        <h1>Welcome to Dessert Dash, {user.name}!</h1>
-        <p>You are logged in as: {user.email}</p>
-        <button onClick={handleLogout} className="btn-logout">Logout</button>
+      <div className="hero-section">
+        <div className="hero-content">
+          <h1>Handmade joys, one sweet at a time</h1>
+          <p>Warm, small-batch sweets crafted daily. Browse our artisan selection and find your new favorite.</p>
+          <button className="shop-now-btn" onClick={() => document.querySelector('.sweets-container').scrollIntoView({ behavior: 'smooth' })}>Shop Now</button>
+        </div>
+        <div className="hero-image">
+          <img src="/hero_image.jpg" alt="Delicious desserts" />
+        </div>
       </div>
       <Sweets />
     </div>

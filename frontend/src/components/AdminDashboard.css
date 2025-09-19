@@ -45,11 +45,11 @@
 .sweets-list td {
     padding: 12px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #eee3d9;
 }
 
 .sweets-list th {
-    background-color: #f5f5f5;
+    background-color: #ffff;
 }
 
 .sweets-list button {

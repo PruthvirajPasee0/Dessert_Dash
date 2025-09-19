@@ -68,7 +68,6 @@ const Sweets = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="search-input"
                 />
-
                 <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
@@ -135,14 +134,20 @@ const Sweets = () => {
                             </div>
                             <div className="sweet-details">
                                 <h3>{sweet.name}</h3>
-                                <p>Category: {sweet.category}</p>
-                                <p>Available: {sweet.quantity}</p>
-                                <p className="price">₹{Number(sweet.price).toFixed(2)}</p>
-                                <button
-                                    onClick={() => handlePurchase(sweet.id)}
-                                    disabled={sweet.quantity === 0}>
-                                    {sweet.quantity > 0 ? 'Purchase' : 'Out of Stock'}
-                                </button>
+                                <p>{sweet.category}</p>
+                                <div className="price-quantity-container">
+                                    <p className="price">₹{Number(sweet.price).toFixed(2)}</p>
+                                    <span className="quantity-badge">{sweet.quantity} left</span>
+                                </div>
+                                <div className="sweet-actions">
+                                    <button
+                                        onClick={() => handlePurchase(sweet.id)}
+                                        disabled={sweet.quantity === 0}
+                                        className="add-to-cart-btn"
+                                    >
+                                        {sweet.quantity > 0 ? 'Add to cart' : 'Out of Stock'}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     );
