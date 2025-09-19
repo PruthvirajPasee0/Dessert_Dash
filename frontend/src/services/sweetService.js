@@ -23,23 +23,53 @@ const sweetService = {
     },
 
     createSweet: async (sweetData) => {
-        const response = await api.post(API_URL, sweetData);
-        return response.data;
+        try {
+            const response = await api.post(API_URL, sweetData);
+            return response.data;
+        } catch (error) {
+            console.error('Error creating sweet:', error);
+            throw error;
+        }
     },
 
     updateSweet: async (id, sweetData) => {
-        const response = await api.put(`${API_URL}/${id}`, sweetData);
-        return response.data;
+        try {
+            const response = await api.put(`${API_URL}/${id}`, sweetData);
+            return response.data;
+        } catch (error) {
+            console.error('Error updating sweet:', error);
+            throw error;
+        }
     },
 
     deleteSweet: async (id) => {
-        const response = await api.delete(`${API_URL}/${id}`);
-        return response.data;
+        try {
+            const response = await api.delete(`${API_URL}/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error deleting sweet:', error);
+            throw error;
+        }
     },
 
     adjustQuantity: async (id, quantity) => {
-        const response = await api.patch(`${API_URL}/${id}/quantity`, { quantity });
-        return response.data;
+        try {
+            const response = await api.patch(`${API_URL}/${id}/quantity`, { quantity });
+            return response.data;
+        } catch (error) {
+            console.error('Error adjusting quantity:', error);
+            throw error;
+        }
+    },
+
+    updateImage: async (id, imageUrl) => {
+        try {
+            const response = await api.patch(`${API_URL}/${id}/image`, { imageUrl });
+            return response.data;
+        } catch (error) {
+            console.error('Error updating image:', error);
+            throw error;
+        }
     }
 };
 

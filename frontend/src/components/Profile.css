@@ -85,8 +85,8 @@
 }
 
 .profile-image {
-    width: 200px;
-    height: 200px;
+    max-width: 300px;
+    max-height: 300px;
     border-radius: 50%;
     align-items: center;
     overflow: hidden;

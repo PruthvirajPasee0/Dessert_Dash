@@ -54,6 +54,8 @@ const Sweets = () => {
         setPriceRange(prev => ({ ...prev, [type]: value }));
     };
 
+    const themes = ['theme-artisan', 'theme-joyful', 'theme-warm'];
+
     return (
         <div className="sweets-container">
             <h2>Available Sweets</h2>
@@ -98,51 +100,53 @@ const Sweets = () => {
                 <div className="sort-buttons">
                     <button
                         onClick={() => handleSort('name')}
-                        className={`sort-button ${sortConfig.field === 'name' ? 'active' : ''}`}
-                    >
+                        className={`sort-button ${sortConfig.field === 'name' ? 'active' : ''}`}>
                         Name {sortConfig.field === 'name' && (sortConfig.order === 'asc' ? '↑' : '↓')}
                     </button>
                     <button
                         onClick={() => handleSort('price')}
-                        className={`sort-button ${sortConfig.field === 'price' ? 'active' : ''}`}
-                    >
+                        className={`sort-button ${sortConfig.field === 'price' ? 'active' : ''}`}>
                         Price {sortConfig.field === 'price' && (sortConfig.order === 'asc' ? '↑' : '↓')}
                     </button>
                 </div>
             </div>
 
             <div className="sweets-grid">
-                {sweets.map((sweet) => (
-                    <div key={sweet.id} className="sweet-card">
-                        <div className="sweet-image-container">
-                            {sweet.imageUrl ? (
-                                <img
-                                    src={sweet.imageUrl}
-                                    alt={sweet.name}
-                                    className="sweet-image"
-                                    onError={(e) => {
-                                        e.target.src = '/placeholder-sweet.png';
-                                        e.target.onerror = null;
-                                    }}
-                                />
-                            ) : (
-                                <div className="placeholder-image">
-                                    A Picture's Worth a Thousand Words But We Don't Have One Yet!
-                                </div>
-                            )}
+                {sweets.map((sweet, index) => {
+                    const theme = themes[index % themes.length];
+                    return (
+                        <div key={sweet.id} className={`sweet-card ${theme}`}>
+                            <div className="sweet-image-container">
+                                {sweet.imageUrl ? (
+                                    <img
+                                        src={sweet.imageUrl}
+                                        alt={sweet.name}
+                                        className="sweet-image"
+                                        onError={(e) => {
+                                            e.target.src = '/placeholder-sweet.png';
+                                            e.target.onerror = null;
+                                        }}
+                                    />
+                                ) : (
+                                    <div className="placeholder-image">
+                                        A Picture's Worth a Thousand Words But We Don't Have One Yet!
+                                    </div>
+                                )}
+                            </div>
+                            <div className="sweet-details">
+                                <h3>{sweet.name}</h3>
+                                <p>Category: {sweet.category}</p>
+                                <p>Available: {sweet.quantity}</p>
+                                <p className="price">₹{Number(sweet.price).toFixed(2)}</p>
+                                <button
+                                    onClick={() => handlePurchase(sweet.id)}
+                                    disabled={sweet.quantity === 0}>
+                                    {sweet.quantity > 0 ? 'Purchase' : 'Out of Stock'}
+                                </button>
+                            </div>
                         </div>
-                        <h3>{sweet.name}</h3>
-                        <p>Category: {sweet.category}</p>
-                        <p>Price: ₹{Number(sweet.price).toFixed(2)}</p>
-                        <p>Available: {sweet.quantity}</p>
-                        <button
-                            onClick={() => handlePurchase(sweet.id)}
-                            disabled={sweet.quantity === 0}
-                        >
-                            {sweet.quantity > 0 ? 'Purchase' : 'Out of Stock'}
-                        </button>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );

@@ -6,7 +6,8 @@ import {
     createSweet,
     updateSweet,
     deleteSweet,
-    adjustQuantity
+    adjustQuantity,
+    updateImage
 } from '../controllers/sweetController';
 
 const router = express.Router();
@@ -20,5 +21,6 @@ router.post('/', createSweet);
 router.put('/:id', updateSweet);
 router.delete('/:id', deleteSweet);
 router.patch('/:id/quantity', adjustQuantity);
+router.patch('/:id/image', updateImage);
 
 export default router;

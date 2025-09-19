@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authService } from '../services/api';
+import './Auth.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -121,11 +122,15 @@ const Register = () => {
   };
 
   return (
-    <div className="register-container">
-      <h2>Create an Account</h2>
-      {serverError && <div className="error-message">{serverError}</div>}
-      
-      <form onSubmit={handleSubmit} noValidate>
+    <div className="auth-background">
+      <div className="register-container">
+        <div className="dessert-icon dessert-icon-1"></div>
+        <div className="dessert-icon dessert-icon-2"></div>
+        <div className="welcome-image" title="Welcome to Dessert Dash"></div>
+        <h2>Join Our Sweet Community</h2>
+        {serverError && <div className="error-message">{serverError}</div>}
+        
+        <form onSubmit={handleSubmit} noValidate>
         <div className="form-group">
           <label>
             <input
@@ -216,6 +221,7 @@ const Register = () => {
       <p className="auth-link">
         Already have an account? <Link to="/login">Login here</Link>
       </p>
+      </div>
     </div>
   );
 };

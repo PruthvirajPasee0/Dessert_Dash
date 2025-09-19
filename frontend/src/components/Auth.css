@@ -1,103 +1,340 @@
 /* Auth Container Styles */
+:root {
+  --primary-yellow: #FFB347; /* Sunflower yellow */
+  --secondary-orange: #E67E22; /* Burnt orange */
+  --accent-brown: #8B4513; /* Earthy brown */
+  --accent-red: #C0392B; /* Deep red */
+  --light-cream: #FFF8E1; /* Light cream background */
+  --text-dark: #5D4037; /* Dark text color */
+  --text-light: #FFF8E1; /* Light text color */
+}
+
+.auth-background {
+  margin: 0;
+  padding: 0;
+  /* height: ; */
+  background: url('/login_background.jpg') center/cover no-repeat fixed;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.auth-background::before {
+  backdrop-filter: blur(1.5px); 
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
 .login-container,
 .register-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   max-width: 450px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+  margin: 5vh auto;
+  padding: 2.5rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  background-color: var(--light-cream);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.welcome-image {
+  align-self: center;
+  width: 220px;
+  height: 220px;
+  background: url('/welcome-image.png') center/cover no-repeat;
+  opacity: 0.8;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.welcome-image:hover {
+  transform: scale(1.05);
 }
 
 .login-container h2,
 .register-container h2 {
   text-align: center;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--accent-brown);
+  font-size: 2rem;
+  font-weight: 700;
+  position: relative;
+}
+
+.login-container h2::after,
+.register-container h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, var(--primary-yellow), var(--secondary-orange));
+  border-radius: 3px;
+}
+
+.login-container::before,
+.register-container::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: rgba(255, 179, 71, 0.2); /* Transparent yellow */
+  z-index: 0;
+}
+
+.login-container::after,
+.register-container::after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  left: -50px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: rgba(230, 126, 34, 0.2); /* Transparent orange */
+  z-index: 0;
 }
 
 /* Form Styles */
 .form-group {
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #555;
+  font-weight: 600;
+  color: var(--text-dark);
+  transition: all 0.3s ease;
 }
 
 .form-group input {
-  width: 100%;
-  padding: 0.8rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  width: 90%;
+  padding: 0.9rem 1rem;
+  border: 2px solid rgba(139, 69, 19, 0.2); /* Transparent brown */
+  border-radius: 8px;
   font-size: 1rem;
-  transition: border-color 0.3s;
+  background-color: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+  color: var(--text-dark);
 }
 
 .form-group input:focus {
-  border-color: #4a90e2;
+  border-color: var(--secondary-orange);
   outline: none;
-  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+  box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.2);
+  background-color: white;
+}
+
+.form-group input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+  accent-color: var(--secondary-orange);
 }
 
 .input-error {
-  border-color: #e74c3c !important;
+  border-color: var(--accent-red) !important;
 }
 
 .field-error {
-  color: #e74c3c;
+  color: var(--accent-red);
   font-size: 0.85rem;
-  margin-top: 0.3rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.field-error::before {
+  content: '⚠️';
+  margin-right: 5px;
+  font-size: 0.9rem;
 }
 
 .error-message {
-  background-color: #fdecea;
-  color: #e74c3c;
-  padding: 0.8rem;
-  border-radius: 4px;
+  background-color: rgba(192, 57, 43, 0.1);
+  color: var(--accent-red);
+  padding: 1rem;
+  border-radius: 8px;
   margin-bottom: 1.5rem;
   text-align: center;
+  border-left: 4px solid var(--accent-red);
+  font-weight: 500;
 }
 
 /* Button Styles */
 .btn-primary {
-  width: 100%;
-  padding: 0.8rem;
-  background-color: #4a90e2;
-  color: white;
+  width: 95%;
+  padding: 1rem;
+  background: linear-gradient(to right, var(--secondary-orange), var(--accent-brown));
+  color: var(--text-light);
   border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 500;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, var(--accent-brown), var(--secondary-orange));
+  transition: left 1s ease;
+  z-index: -1;
 }
 
 .btn-primary:hover {
-  background-color: #3a7bc8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(230, 126, 34, 0.4);
+}
+
+.btn-primary:hover::before {
+  left: 0;
 }
 
 .btn-primary:disabled {
-  background-color: #a0c3e8;
+  background: linear-gradient(to right, #ccc, #aaa);
   cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
 /* Link Styles */
 .auth-link {
   text-align: center;
-  margin-top: 1.5rem;
-  color: #666;
+  margin-top: 2rem;
+  color: var(--text-dark);
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
 }
 
 .auth-link a {
-  color: #4a90e2;
+  color: var(--secondary-orange);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.auth-link a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--secondary-orange);
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease;
 }
 
 .auth-link a:hover {
-  text-decoration: underline;
+  color: var(--accent-brown);
+}
+
+.auth-link a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+  background-color: var(--accent-brown);
+}
+
+/* Admin Registration Styles */
+.form-group label[for="secretKey"] {
+  color: var(--accent-brown);
+  font-weight: 700;
+}
+
+.form-group input[name="secretKey"] {
+  border-color: rgba(139, 69, 19, 0.3);
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.form-group input[name="secretKey"]:focus {
+  border-color: var(--accent-brown);
+  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.2);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .login-container,
+  .register-container {
+    width: 85%;
+    padding: 2rem;
+    margin: 3vh auto;
+  }
+  
+  .login-container h2,
+  .register-container h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container,
+  .register-container {
+    width: 90%;
+    padding: 1.5rem;
+    margin: 2vh auto;
+  }
+  
+  .login-container h2,
+  .register-container h2 {
+    font-size: 1.6rem;
+  }
+  
+  .btn-primary {
+    padding: 0.9rem;
+  }
+}
+
+/* Decorative Elements */
+.dessert-icon {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.7;
+  z-index: 0;
+}
+
+.dessert-icon-1 {
+  top: 20px;
+  right: 20px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23E67E22"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/></svg>');
+}
+
+.dessert-icon-2 {
+  bottom: 20px;
+  left: 20px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238B4513"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>');
 }

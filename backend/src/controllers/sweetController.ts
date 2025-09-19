@@ -157,6 +157,38 @@ export const adjustQuantity = async (req: Request, res: Response) => {
     }
 };
 
+export const updateImage = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { imageUrl } = req.body;
+
+        if (!imageUrl) {
+            return res.status(400).json({ message: 'Image URL is required' });
+        }
+
+        if (!isValidUrl(imageUrl)) {
+            return res.status(400).json({ message: 'Invalid image URL' });
+        }
+
+        // Validate image file type from URL
+        const validImageTypes = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+        const fileExtension = imageUrl.split('.').pop()?.toLowerCase();
+        if (!fileExtension || !validImageTypes.includes(`.${fileExtension}`)) {
+            return res.status(400).json({ message: 'Invalid image file type' });
+        }
+
+        const sweet = await prisma.sweet.update({
+            where: { id },
+            data: { imageUrl }
+        });
+
+        res.json(sweet);
+    } catch (error) {
+        console.error('Error updating image:', error);
+        res.status(500).json({ message: 'Failed to update image' });
+    }
+};
+
 // Helper function to validate URLs
 const isValidUrl = (url: string): boolean => {
     try {

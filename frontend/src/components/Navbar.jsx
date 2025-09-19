@@ -7,6 +7,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const verifyUserAccess = () => {
@@ -17,16 +18,19 @@ const Navbar = () => {
                 if (!token || !userStr) {
                     setIsAuthenticated(false);
                     setIsAdmin(false);
+                    setUser(null);
                     return;
                 }
 
-                const user = JSON.parse(userStr);
+                const userData = JSON.parse(userStr);
+                setUser(userData);
                 setIsAuthenticated(true);
-                setIsAdmin(user && user.role === 'admin');
+                setIsAdmin(userData && userData.role === 'admin');
             } catch (error) {
                 console.error('Error verifying user access:', error);
                 setIsAuthenticated(false);
                 setIsAdmin(false);
+                setUser(null);
             }
         };
 
@@ -45,21 +49,25 @@ const Navbar = () => {
             <div className="navbar-brand">
                 <Link to="/" className="brand-link">Dessert Dash</Link>
             </div>
-            <div className="navbar-links">
-                {isAuthenticated ? (
-                    <>
-                        <Link to="/profile" className="nav-link">Profile</Link>
-                        {isAdmin && (
-                            <Link to="/admin/dashboard" className="nav-link">Dashboard</Link>
-                        )}
-                        <button onClick={handleLogout} className="nav-link logout-btn">Logout</button>
-                    </>
-                ) : (
-                    <>
-                        <Link to="/login" className="nav-link">Login</Link>
-                        <Link to="/register" className="nav-link">Register</Link>
-                    </>
-                )}
+            <div className="navbar-links"> 
+                <>
+                    <Link to="/sweets" className="nav-link">Sweets</Link>
+                    {isAdmin && (
+                        <Link to="/admin/dashboard" className="nav-link">Dashboard</Link>
+                    )}
+                    <button onClick={handleLogout} className="nav-link logout-btn">Logout</button>
+                    <Link to="/profile" className="profile-image-container">
+                        <img
+                            src={`http://localhost:8000${user?.imageUrl}` || '/placeholder-profile.png'}
+                            alt="Profile"
+                            className="profile-image"
+                            onError={(e) => {
+                                e.target.src = '/placeholder-profile.png'; 
+                                e.target.onerror = null;
+                            }}
+                        />
+                    </Link>
+                </>
             </div>
         </nav>
     );

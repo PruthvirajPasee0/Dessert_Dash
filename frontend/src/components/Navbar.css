@@ -2,24 +2,30 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem 1rem;
+    background-color: #ffb247ae; /* Joyful theme color */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top:5px;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+    backdrop-filter: blur(10px);
+    border-radius: 40px;
+    font-weight: 600;
 }
 
 .navbar-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 1.8rem;
 }
 
 .brand-link {
-    text-decoration: none;
-    color: #333;
+    color: #242424;
     transition: color 0.3s ease;
+    font: inherit;
 }
 
 .brand-link:hover {
-    color: #4CAF50;
+    color: black;
 }
 
 .navbar-links {
@@ -29,14 +35,30 @@
 }
 
 .nav-link {
-    text-decoration: none;
-    color: #666;
-    font-weight: 500;
+    font: inherit;
+    color: #242424;
     transition: color 0.3s ease;
+    position: relative;
 }
 
 .nav-link:hover {
-    color: #4CAF50;
+    color: black;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #795548; /* Warm theme color */
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
 }
 
 .logout-btn {
@@ -46,6 +68,22 @@
     font: inherit;
     cursor: pointer;
     outline: inherit;
+    color: #242424;
+}
+
+.profile-image-container {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-left: 1rem;
+    border: 2px solid #fff5e6;
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 @media (max-width: 768px) {
@@ -54,7 +92,7 @@
     }
 
     .navbar-brand {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
     }
 
     .navbar-links {
