@@ -8,6 +8,8 @@ import Profile from './components/Profile'
 import Navbar from './components/Navbar'
 import AdminDashboard from './components/AdminDashboard'
 import './components/AdminDashboard.css'
+import Cart from './components/Cart'
+import { CartProvider } from './context/CartContext'
 
 const ProtectedAdminRoute = ({ children }) => {
   const userStr = localStorage.getItem('user');
@@ -37,6 +39,7 @@ const AppContent = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/admin/dashboard" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
@@ -46,9 +49,11 @@ const AppContent = () => {
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <CartProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </CartProvider>
   )
 }
 

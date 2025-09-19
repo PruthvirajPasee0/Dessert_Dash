@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../services/api';
+import { useCart } from '../context/CartContext';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -8,6 +9,7 @@ const Navbar = () => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState(null);
+    const { getCartItemsCount } = useCart();
 
     useEffect(() => {
         const verifyUserAccess = () => {
@@ -55,6 +57,10 @@ const Navbar = () => {
                     {isAdmin && (
                         <Link to="/admin/dashboard" className="nav-link">Dashboard</Link>
                     )}
+                    <Link to="/cart" className="nav-link cart-link">
+                        <span className="cart-icon">🛒</span>
+                        <span className="cart-count">{getCartItemsCount()}</span>
+                    </Link>
                     <button onClick={handleLogout} className="nav-link logout-btn">Logout</button>
                     <Link to="/profile" className="profile-image-container">
                         <img

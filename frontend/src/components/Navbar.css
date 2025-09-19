@@ -76,13 +76,7 @@
     height: 50px;
     border-radius: 50%;
     overflow: hidden;
-    border: 2px solid var(--primary-color);
-    transition: border-color 0.3s ease;
-    cursor: pointer;
-}
-
-.profile-image-container:hover {
-    border-color: var(--primary-color-dark);
+    border: 2px solid #E67E22;
 }
 
 .profile-image {
@@ -91,24 +85,14 @@
     object-fit: cover;
 }
 
-.user-dropdown {
-    position: absolute;
-    top: 120%;
-    right: 0;
-    background-color: var(--background-light);
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    min-width: 180px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
+.cart-link {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
-.user-menu:hover .user-dropdown {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+.cart-icon {
+    font-size: 1.5rem;
 }
 
 .dropdown-item {

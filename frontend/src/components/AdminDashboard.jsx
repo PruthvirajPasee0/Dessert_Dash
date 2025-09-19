@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import sweetService from '../services/sweetService';
 
 const AdminDashboard = () => {
@@ -13,6 +13,7 @@ const AdminDashboard = () => {
         imageUrl: ''
     });
     const [editingId, setEditingId] = useState(null);
+    const nameInputRef = useRef(null);
 
     const fetchSweets = async () => {
         try {
@@ -85,6 +86,7 @@ const AdminDashboard = () => {
             imageUrl: sweet.imageUrl || ''
         });
         setEditingId(sweet.id);
+        nameInputRef.current.focus();
     };
 
     const handleDelete = async (id) => {
@@ -115,140 +117,159 @@ const AdminDashboard = () => {
         }
     };
 
-    const handleImageUpdate = async (id, currentImageUrl) => {
-        const newImageUrl = prompt('Enter new image URL:', currentImageUrl);
-        if (!newImageUrl) return;
-
-        if (!validateImageUrl(newImageUrl)) {
-            setError('Please enter a valid image URL');
-            return;
-        }
-
-        try {
-            await sweetService.updateImage(id, newImageUrl);
-            await fetchSweets();
-            setError(null);
-        } catch (err) {
-            console.error('Error updating image:', err);
-            setError(err.response?.data?.message || 'Failed to update image');
-        }
-    };
 
     if (loading) return <div className="loading-state">Loading sweets data...</div>;
 
     return (
         <div className="admin-dashboard">
-            <h2>Sweet Management</h2>
-            
+
             {error && <div className="error-message">{error}</div>}
 
-            <form onSubmit={handleSubmit} className="sweet-form">
-                <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="Sweet name"
-                    required
-                />
-                <input
-                    type="text"
-                    name="category"
-                    value={formData.category}
-                    onChange={handleInputChange}
-                    placeholder="Category"
-                    required
-                />
-                <input
-                    type="number"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleInputChange}
-                    placeholder="Price"
-                    step="0.01"
-                    required
-                />
-                <input
-                    type="number"
-                    name="quantity"
-                    value={formData.quantity}
-                    onChange={handleInputChange}
-                    placeholder="Quantity"
-                    required
-                />
-                <input
-                    type="url"
-                    name="imageUrl"
-                    value={formData.imageUrl}
-                    onChange={handleInputChange}
-                    placeholder="Image URL"
-                />
-                <button type="submit">
-                    {editingId ? 'Update Sweet' : 'Add Sweet'}
-                </button>
-                {editingId && (
-                    <button type="button" onClick={() => {
-                        setEditingId(null);
-                        setFormData({ name: '', category: '', price: '', quantity: '', imageUrl: '' });
-                    }}>
-                        Cancel Edit
-                    </button>
-                )}
-            </form>
+            <div className="add-edit-sweet-section">
+                <h3>Add / Edit Sweet</h3>
+                <p>Craft your confection — keep details simple and clear.</p>
+                <form onSubmit={handleSubmit} className="sweet-form">
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label htmlFor="name">Name</label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                                placeholder="e.g., Cocoa Truffles"
+                                required
+                                ref={nameInputRef}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="category">Category</label>
+                            <input
+                                type="string"
+                                id="category"
+                                name="category"
+                                value={formData.category}
+                                onChange={handleInputChange}
+                                placeholder="Donut..."
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label htmlFor="price">Price</label>
+                            <input
+                                type="number"
+                                id="price"
+                                name="price"
+                                value={formData.price}
+                                onChange={handleInputChange}
+                                placeholder="$0.00"
+                                step="0.01"
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="quantity">Quantity</label>
+                            <input
+                                type="number"
+                                id="quantity"
+                                name="quantity"
+                                value={formData.quantity}
+                                onChange={handleInputChange}
+                                placeholder="0"
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div className="form-group full-width">
+                        <label htmlFor="imageUrl">Image URL</label>
+                        <input
+                            type="url"
+                            id="imageUrl"
+                            name="imageUrl"
+                            value={formData.imageUrl}
+                            onChange={handleInputChange}
+                            placeholder="https://images.unsplash.com/photo-..."
+                        />
+                        <p className="help-text">Paste a direct image link to your sweet. PNG or JPG recommended.</p>
+                    </div>
+                    <div className="form-actions">
+                        <button type="button" className="reset-button" onClick={() => {
+                            setEditingId(null);
+                            setFormData({ name: '', category: '', price: '', quantity: '', imageUrl: '' });
+                        }}>
+                            Reset
+                        </button>
+                        <button type="submit" className="save-button">
+                            {editingId ? 'Update Sweet' : 'Save Sweet'}
+                        </button>
+                    </div>
+                </form>
+            </div>
 
-            <div className="sweets-list">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {sweets && Array.isArray(sweets) ? sweets.map(sweet => (
-                            <tr key={sweet.id}>
-                                <td>
-                                    {sweet.imageUrl ? (
-                                        <img 
-                                            src={sweet.imageUrl} 
-                                            alt={sweet.name} 
-                                            style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-                                            onError={(e) => e.target.src = '/placeholder-profile.png'}
-                                        />
-                                    ) : (
-                                        <img 
-                                            src="/placeholder-profile.png" 
-                                            alt="placeholder" 
-                                            style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-                                        />
-                                    )}
-                                </td>
-                                <td>{sweet.name}</td>
-                                <td>{sweet.category}</td>
-                                <td>${sweet.price}</td>
-                                <td>{sweet.quantity}</td>
-                                <td>
-                                    <button onClick={() => handleEdit(sweet)}>Edit</button>
-                                    <button onClick={() => handleImageUpdate(sweet.id, sweet.imageUrl)}>
-                                        Update Image
-                                    </button>
-                                    <button onClick={() => handleQuantityAdjust(sweet.id, sweet.quantity)}>
-                                        Restock
-                                    </button>
-                                    <button onClick={() => handleDelete(sweet.id)}>Delete</button>
-                                </td>
-                            </tr>
-                        )) : (
+            <div className="sweet-catalog-section">
+                <h3>Sweet Catalog</h3>
+                <p>Browse all sweets in your shop</p>
+                <button className="add-sweet-button" onClick={() => {
+                    setEditingId(null);
+                    setFormData({ name: '', category: '', price: '', quantity: '', imageUrl: '' });
+                    nameInputRef.current.focus();
+                }}>
+                    + Add Sweet
+                </button>
+                <div className="sweets-list">
+                    <table>
+                        <thead>
                             <tr>
-                                <td colSpan="6" className="no-data">No sweets data available</td>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Actions</th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {sweets && Array.isArray(sweets) ? sweets.map(sweet => (
+                                <tr key={sweet.id}>
+                                    <td>
+                                        {sweet.imageUrl ? (
+                                            <img
+                                                src={sweet.imageUrl}
+                                                alt={sweet.name}
+                                                style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                                                onError={(e) => e.target.src = '/placeholder-profile.png'}
+                                            />
+                                        ) : (
+                                            <img
+                                                src="/placeholder-profile.png"
+                                                alt="placeholder"
+                                                style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                                            />
+                                        )}
+                                    </td>
+                                    <td>{sweet.name}</td>
+                                    <td>{sweet.category}</td>
+                                    <td>${sweet.price}</td>
+                                    <td>{sweet.quantity}</td>
+                                    <td className="sweet-actions">
+                                        <button className="edit-button" onClick={() => handleEdit(sweet)}>Edit</button>
+                                        <button className="delete-button" onClick={() => handleDelete(sweet.id)}>Delete</button>
+                                        <button className="restock-button" onClick={() => handleQuantityAdjust(sweet.id, sweet.quantity)}>
+                                            Restock
+                                        </button>
+                                    </td>
+                                </tr>
+                            )) : (
+                                <tr>
+                                    <td colSpan="6" className="no-data">No sweets data available</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );

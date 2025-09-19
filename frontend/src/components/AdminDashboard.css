@@ -2,43 +2,173 @@
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+
+.add-edit-sweet-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    border: 1px solid #f5a891;
+}
+
+.add-edit-sweet-section h3 {
+    color: #5a3e36;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.add-edit-sweet-section p {
+    color: #777;
+    font-size: 0.9em;
+    margin-bottom: 20px;
 }
 
 .sweet-form {
-    display: grid;
-    gap: 10px;
-    margin-bottom: 20px;
-    max-width: 500px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-.sweet-form input {
-    padding: 8px;
+.sweet-form .form-row {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.sweet-form .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.sweet-form .form-group.full-width {
+    flex: none;
+    width: 100%;
+}
+
+.sweet-form label {
+    font-size: 0.9em;
+    color: #5a3e36;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.sweet-form input,
+.sweet-form select {
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.sweet-form button {
-    padding: 8px;
-    background-color: #4CAF50;
-    color: white;
+.sweet-form input::placeholder,
+.sweet-form select:invalid {
+    color: #999;
+}
+
+.sweet-form .help-text {
+    font-size: 0.8em;
+    color: #999;
+    margin-top: 5px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.form-actions button {
+    padding: 12px 16px;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
 }
 
-.sweet-form button[type="button"] {
-    background-color: #f44336;
+.form-actions .reset-button {
+    background-color: #f0f0f0;
+    color: #5a3e36;
+}
+
+.form-actions .reset-button:hover {
+    background-color: #e0e0e0;
+}
+
+.form-actions .save-button {
+    background-color: #ff9800;
+    color: white;
+}
+
+.form-actions .save-button:hover {
+    background-color: #e68900;
 }
 
 .error-message {
     color: #f44336;
-    margin-bottom: 10px;
+    background-color: #ffebee;
+    border: 1px solid #f44336;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.sweet-catalog-section {
+    background-color: #ffff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f5a891;
+    position: relative;
+}
+
+.sweet-catalog-section h3 {
+    color: #5a3e36;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.sweet-catalog-section p {
+    color: #777;
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
+.add-sweet-button {
+    background-color: #ff9800;
+    color: white;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.add-sweet-button:hover {
+    background-color: #e68900;
 }
 
 .sweets-list table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     margin-top: 20px;
+    border-radius: 15px;
+    overflow: hidden;
 }
 
 .sweets-list th,
@@ -49,38 +179,95 @@
 }
 
 .sweets-list th {
-    background-color: #ffff;
+    color: #5a3e36;
+    font-weight: bold;
 }
 
-.sweets-list button {
-    margin-right: 5px;
-    padding: 5px 10px;
-    border: none;
+.sweets-list tr:last-child td {
+    border-bottom: none;
+}
+
+.sweets-list img {
     border-radius: 4px;
+}
+
+.sweet-actions button {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 10px;
     cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
 }
 
-.sweets-list button:nth-child(1) {
-    background-color: #2196F3;
-    color: white;
+.sweet-actions .edit-button {
+    background-color: #fff0e6;
+    border: 1px solid #f5a891;
+    color: #5c3511;
+    transition: 0.3s ease;
 }
 
-.sweets-list button:nth-child(2) {
-    background-color: #FF9800;
-    color: white;
+.sweet-actions .edit-button:hover {
+    background-color: #795548;
+    color:#ffff;
 }
 
-.sweets-list button:nth-child(3) {
-    background-color: #f44336;
+.sweet-actions .delete-button {
+    background-color: #e24f4f;
     color: white;
+    transition: 0.3s ease;
+}
+
+.sweet-actions .delete-button:hover {
+    background-color: #da190b;
+}
+
+.sweet-actions .restock-button {
+    background-color: #ffff;
+    border: 1px solid #f5a891;
+    color: #2b2b2b;
+    transition: 0.3s ease;
+}
+
+.sweet-actions .restock-button:hover {
+    background-color: #e68900;
+    color:#ffff;
+}
+
+.no-data {
+    text-align: center;
+    padding: 20px;
+    color: #777;
 }
 
 @media (max-width: 768px) {
+
+    .sweet-form .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .sweet-form .form-group {
+        width: 100%;
+    }
+
+    .add-sweet-button {
+        position: static;
+        width: 100%;
+        margin-top: 20px;
+    }
+
     .sweets-list {
         overflow-x: auto;
     }
 
-    .sweet-form {
-        max-width: 100%;
+    .sweets-list table {
+        min-width: 700px; /* Ensure table is not too cramped */
+    }
+
+    .sweet-actions button {
+        display: block;
+        width: 100%;
+        margin-bottom: 5px;
     }
 }

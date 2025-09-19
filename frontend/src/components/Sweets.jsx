@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllSweets } from '../services/api';
+import { useCart } from '../context/CartContext';
 import './Sweets.css';
 
 const Sweets = () => {
@@ -10,6 +11,7 @@ const Sweets = () => {
     const [priceRange, setPriceRange] = useState({ min: '', max: '' });
     const [sortConfig, setSortConfig] = useState({ field: '', order: 'asc' });
     const [categories, setCategories] = useState([]);
+    const { addToCart } = useCart();
 
     const fetchSweets = async () => {
         try {
@@ -52,6 +54,28 @@ const Sweets = () => {
 
     const handlePriceRangeChange = (type, value) => {
         setPriceRange(prev => ({ ...prev, [type]: value }));
+    };
+
+    const handlePurchase = (sweetId) => {
+        const sweet = sweets.find(s => s.id === sweetId);
+        if (sweet) {
+            addToCart(sweet);
+            // Show a brief notification or feedback
+            const notification = document.createElement('div');
+            notification.className = 'add-to-cart-notification';
+            notification.textContent = `${sweet.name} added to cart!`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 2000);
+            }, 10);
+        }
     };
 
     const themes = ['theme-artisan', 'theme-joyful', 'theme-warm'];
