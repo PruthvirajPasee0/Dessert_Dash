@@ -34,15 +34,23 @@ model Sweet {
 
 /// Purchases (join table)
 model Purchase {
-  id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  sweet     Sweet    @relation(fields: [sweetId], references: [id])
-  sweetId   String
-  quantity  Int
-  total     Decimal  @db.Decimal(10,2)
-  createdAt DateTime @default(now())
+  id             String   @id @default(uuid())
+  orderId        String   @unique
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String
+  sweet          Sweet    @relation(fields: [sweetId], references: [id])
+  sweetId        String
+  quantity       Int
+  pricePerUnit   Decimal  @db.Decimal(10,2)
+  total          Decimal  @db.Decimal(10,2)
+  tax            Decimal  @db.Decimal(10,2)
+  deliveryFee    Decimal  @db.Decimal(10,2)
+  paymentMethod  String
+  paymentDetails Json
+  status         String   @default("pending") // pending, completed, failed
+  createdAt      DateTime @default(now())
 
   @@index([userId])
   @@index([sweetId])
+  @@index([orderId])
 }

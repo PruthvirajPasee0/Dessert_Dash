@@ -9,6 +9,8 @@ import Navbar from './components/Navbar'
 import AdminDashboard from './components/AdminDashboard'
 import './components/AdminDashboard.css'
 import Cart from './components/Cart'
+import Checkout from './components/Checkout'
+import PurchaseSuccess from './components/PurchaseSuccess'
 import { CartProvider } from './context/CartContext'
 
 const ProtectedAdminRoute = ({ children }) => {
@@ -40,6 +42,8 @@ const AppContent = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/purchase-success" element={<PurchaseSuccess />} />
         <Route path="/admin/dashboard" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

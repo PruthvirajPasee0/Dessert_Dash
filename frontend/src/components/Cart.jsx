@@ -8,7 +8,13 @@ const Cart = () => {
     const { cartItems, removeFromCart, updateQuantity, getCartTotal } = useCart();
 
     const handleCheckout = () => {
-        navigate('/checkout');
+        // Navigate to checkout page with cart data
+        navigate('/checkout', {
+          state: {
+            cartItems,
+            cartTotal: getCartTotal()
+          }
+        });
     };
 
     if (cartItems.length === 0) {

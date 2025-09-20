@@ -5,6 +5,7 @@ import path from 'path';
 import authRoutes from './routes/authRoutes';
 import sweetRoutes from './routes/sweetRoutes';
 import userRoutes from './routes/userRoutes';
+import purchaseRoutes from './routes/purchaseRoutes';
 
 // Load environment variables
 dotenv.config();
@@ -27,6 +28,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use('/api/auth', authRoutes);
 app.use('/api/sweets', sweetRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/purchases', purchaseRoutes);
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
