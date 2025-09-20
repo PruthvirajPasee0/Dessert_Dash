@@ -1,14 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import sweetService from '../services/sweetService';
-import purchaseService from '../services/purchaseService';
 
 const AdminDashboard = () => {
     const [sweets, setSweets] = useState([]);
-    const [purchases, setPurchases] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [purchaseLoading, setPurchaseLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [purchaseError, setPurchaseError] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
         category: '',
@@ -18,21 +14,6 @@ const AdminDashboard = () => {
     });
     const [editingId, setEditingId] = useState(null);
     const nameInputRef = useRef(null);
-
-    const checkAdminAccess = async () => {
-        try {
-            const user = JSON.parse(localStorage.getItem('user'));
-            if (!user || user.role !== 'admin') {
-                window.location.href = '/';
-                return false;
-            }
-            return true;
-        } catch (err) {
-            console.error('Error checking admin access:', err);
-            window.location.href = '/';
-            return false;
-        }
-    };
 
     const fetchSweets = async () => {
         try {
@@ -55,48 +36,8 @@ const AdminDashboard = () => {
     };
 
     useEffect(() => {
-        const initializeDashboard = async () => {
-            const hasAccess = await checkAdminAccess();
-            if (hasAccess) {
-                fetchSweets();
-                fetchPurchases();
-            }
-        };
-        initializeDashboard();
+        fetchSweets();
     }, []);
-
-    const fetchPurchases = async () => {
-        try {
-            setPurchaseLoading(true);
-            const data = await purchaseService.getAllPurchases();
-            if (!data) {
-                setPurchaseError('No purchase records available');
-                setPurchases([]);
-            } else {
-                setPurchases(data);
-                setPurchaseError(null);
-            }
-        } catch (err) {
-            console.error('Error fetching purchases:', err);
-            setPurchaseError('Failed to fetch purchases. Please try again.');
-            setPurchases([]);
-        } finally {
-            setPurchaseLoading(false);
-        }
-    };
-
-    const handleDeletePurchase = async (id) => {
-        if (window.confirm('Are you sure you want to delete this purchase record? This action cannot be undone.')) {
-            try {
-                await purchaseService.deletePurchase(id);
-                setPurchases(purchases.filter(purchase => purchase.id !== id));
-                setPurchaseError(null);
-            } catch (err) {
-                console.error('Error deleting purchase:', err);
-                setPurchaseError('Failed to delete purchase. Please try again.');
-            }
-        }
-    };
 
     const handleInputChange = (e) => {
         setFormData({
@@ -329,59 +270,6 @@ const AdminDashboard = () => {
                         </tbody>
                     </table>
                 </div>
-            </div>
-
-            <div className="purchase-history-section">
-                <h3>Purchase History</h3>
-                <p>View and manage all customer purchases</p>
-
-                {purchaseError && <div className="error-message">{purchaseError}</div>}
-
-                {purchaseLoading ? (
-                    <div className="loading-state">Loading purchase data...</div>
-                ) : (
-                    <div className="purchases-list">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Order ID</th>
-                                    <th>Customer</th>
-                                    <th>Item</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {purchases && Array.isArray(purchases)? purchases.map(purchase => (
-                                    <tr key={purchase.id}>
-                                        <td>{purchase.orderId}</td>
-                                        <td>{purchase.user.name}</td>
-                                        <td>{purchase.sweet.name}</td>
-                                        <td>{purchase.quantity}</td>
-                                        <td>${purchase.total}</td>
-                                        <td>{new Date(purchase.createdAt).toLocaleDateString()}</td>
-                                        <td>{purchase.status}</td>
-                                        <td className="purchase-actions">
-                                            <button 
-                                                className="delete-button"
-                                                onClick={() => handleDeletePurchase(purchase.id)}
-                                            >
-                                                Delete
-                                            </button>
-                                        </td>
-                                    </tr>
-                                )) : (
-                                    <tr>
-                                        <td colSpan="8" className="no-data">No purchase records available</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
             </div>
         </div>
     );
