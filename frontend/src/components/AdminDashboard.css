@@ -6,8 +6,9 @@
     color: #333;
 }
 
-
-.add-edit-sweet-section {
+.add-edit-sweet-section,
+.sweet-catalog-section,
+.purchase-history-section {
     background-color: #fff;
     padding: 20px;
     border-radius: 15px;
@@ -16,13 +17,17 @@
     border: 1px solid #f5a891;
 }
 
-.add-edit-sweet-section h3 {
+.add-edit-sweet-section h3,
+.sweet-catalog-section h3,
+.purchase-history-section h3 {
     color: #5a3e36;
     margin-top: 0;
     margin-bottom: 5px;
 }
 
-.add-edit-sweet-section p {
+.add-edit-sweet-section p,
+.sweet-catalog-section p,
+.purchase-history-section p {
     color: #777;
     font-size: 0.9em;
     margin-bottom: 20px;
@@ -123,27 +128,6 @@
     margin-bottom: 20px;
 }
 
-.sweet-catalog-section {
-    background-color: #ffff;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    border: 1px solid #f5a891;
-    position: relative;
-}
-
-.sweet-catalog-section h3 {
-    color: #5a3e36;
-    margin-top: 0;
-    margin-bottom: 5px;
-}
-
-.sweet-catalog-section p {
-    color: #777;
-    font-size: 0.9em;
-    margin-bottom: 20px;
-}
-
 .add-sweet-button {
     background-color: #ff9800;
     color: white;
@@ -162,7 +146,8 @@
     background-color: #e68900;
 }
 
-.sweets-list table {
+.sweets-list table,
+.purchases-list table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
@@ -172,18 +157,23 @@
 }
 
 .sweets-list th,
-.sweets-list td {
+.sweets-list td,
+.purchases-list th,
+.purchases-list td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #eee3d9;
 }
 
-.sweets-list th {
+.sweets-list th,
+.purchases-list th {
     color: #5a3e36;
     font-weight: bold;
+    background-color: #fff0e6;
 }
 
-.sweets-list tr:last-child td {
+.sweets-list tr:last-child td,
+.purchases-list tr:last-child td {
     border-bottom: none;
 }
 
@@ -191,13 +181,15 @@
     border-radius: 4px;
 }
 
-.sweet-actions button {
+.sweet-actions button,
+.purchase-actions button {
     padding: 12px 16px;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     font-size: 0.9em;
     font-weight: bold;
+    margin-right: 5px;
 }
 
 .sweet-actions .edit-button {
@@ -209,21 +201,23 @@
 
 .sweet-actions .edit-button:hover {
     background-color: #795548;
-    color:#ffff;
+    color: #fff;
 }
 
-.sweet-actions .delete-button {
+.sweet-actions .delete-button,
+.purchase-actions .delete-button {
     background-color: #e24f4f;
     color: white;
     transition: 0.3s ease;
 }
 
-.sweet-actions .delete-button:hover {
+.sweet-actions .delete-button:hover,
+.purchase-actions .delete-button:hover {
     background-color: #da190b;
 }
 
 .sweet-actions .restock-button {
-    background-color: #ffff;
+    background-color: #fff;
     border: 1px solid #f5a891;
     color: #2b2b2b;
     transition: 0.3s ease;
@@ -231,7 +225,7 @@
 
 .sweet-actions .restock-button:hover {
     background-color: #e68900;
-    color:#ffff;
+    color: #fff;
 }
 
 .no-data {
@@ -240,7 +234,17 @@
     color: #777;
 }
 
+.loading-state {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+    font-style: italic;
+}
+
 @media (max-width: 768px) {
+    .admin-dashboard {
+        padding: 10px;
+    }
 
     .sweet-form .form-row {
         flex-direction: column;
@@ -257,17 +261,51 @@
         margin-top: 20px;
     }
 
-    .sweets-list {
+    .sweets-list,
+    .purchases-list {
         overflow-x: auto;
     }
 
-    .sweets-list table {
-        min-width: 700px; /* Ensure table is not too cramped */
+    .sweets-list table,
+    .purchases-list table {
+        min-width: 700px;
     }
 
-    .sweet-actions button {
+    .sweet-actions button,
+    .purchase-actions button {
         display: block;
         width: 100%;
         margin-bottom: 5px;
+        margin-right: 0;
+    }
+
+    .add-edit-sweet-section,
+    .sweet-catalog-section,
+    .purchase-history-section {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-dashboard {
+        padding: 5px;
+    }
+
+    .add-edit-sweet-section,
+    .sweet-catalog-section,
+    .purchase-history-section {
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+
+    .sweet-form input,
+    .sweet-form select {
+        padding: 8px;
+    }
+
+    .form-actions button {
+        padding: 10px 14px;
+        font-size: 0.9em;
     }
 }
