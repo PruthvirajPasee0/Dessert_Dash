@@ -33,9 +33,18 @@ To get the Dessert Dash application running locally, please follow these steps:
      ```
      DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
      ```
+     The .env file will look something like this:
+     ```
+     DATABASE_URL="mysql://root@127.0.0.1:3306/dessert_dash"
+      PORT = 8000
+      NODE_ENV = development
+      JWT_SECRET="change_this_long_secret"
+      ADMIN_SECRET_KEY = "abara-ka-dabara"
+     ```
    - Run the Prisma migrations to create the database schema:
      ```bash
      npx prisma migrate dev
+     npx prisma generate
      ```
 4. **Start the backend server:**
 
@@ -64,6 +73,8 @@ To get the Dessert Dash application running locally, please follow these steps:
    ```
 
    The frontend will be accessible at `http://localhost:5173`.
+
+   **Note:** As the database has no sweets, at first the sweets section will be empty, You have to add the sweets as an admin.
 
 ## Application Screenshots
 
