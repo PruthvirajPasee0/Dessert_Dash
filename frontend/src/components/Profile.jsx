@@ -81,7 +81,7 @@ const Profile = () => {
                     <div className="profile-image">
                         {profile.imageUrl ? (
                             <img
-                                src={`http://localhost:8000${profile.imageUrl}`}
+                                src={`http://dessertdash-production.up.railway.app${profile.imageUrl}`}
                                 alt={profile.name}
                                 onError={(e) => {
                                     e.target.src = '/placeholder-profile.png';

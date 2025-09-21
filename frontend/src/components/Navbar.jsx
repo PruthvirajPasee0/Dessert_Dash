@@ -64,7 +64,7 @@ const Navbar = () => {
                     <button onClick={handleLogout} className="nav-link logout-btn">Logout</button>
                     <Link to="/profile" className="profile-image-container">
                         <img
-                            src={`http://localhost:8000${user?.imageUrl}` || '/placeholder-profile.png'}
+                            src={`http://dessertdash-production.up.railway.app${user?.imageUrl}` || '/placeholder-profile.png'}
                             alt="Profile"
                             className="profile-image"
                             onError={(e) => {
