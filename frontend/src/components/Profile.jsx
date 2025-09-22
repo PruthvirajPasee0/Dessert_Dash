@@ -155,7 +155,7 @@ const Profile = () => {
 
                 {/* Footnote */}
                 <p className="profile-footnote">
-                    Every sweet has a story—thanks for making ours sweeter, {firstName}.
+                    Every sweet is crafted with care—just like our bond with you, {firstName}.
                 </p>
             </div>
         </div>

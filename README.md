@@ -4,6 +4,10 @@
 
 Dessert Dash is a full-stack web application designed to be the best in the town dessert discovery platform. It allows users to browse a wide variety of desserts from different vendors, place orders, and have them delivered to their doorstep. The application features a user-friendly interface for customers and a robust dashboard for vendors to manage their products and orders.
 
+Here is the video showcasing the full tour of the application:  
+
+``https://drive.google.com/file/d/1AQaFZGXe2jBnOyMyBnLr-WePyYM3FvO6/view?usp=sharing``
+
 ## Setup Instructions
 
 To get the Dessert Dash application running locally, please follow these steps:
@@ -77,9 +81,7 @@ Admin DashBoard:
 
 Login/Register Page:
 
-![1758384386044](image/README/1758384386044.png)
-
-Cart Page:
+![1758533643440](image/README/1758533643440.png)Cart Page:
 
 ![1758384439380](image/README/1758384439380.png)
 
@@ -93,7 +95,7 @@ Payment Confirmation Page:
 
 Profile Page:
 
-![1758384519571](image/README/1758384519571.png)
+![1758534032608](image/README/1758534032608.png)
 
 ## My AI Usage
 

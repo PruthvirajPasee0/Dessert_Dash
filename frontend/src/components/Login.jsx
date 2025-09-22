@@ -117,7 +117,7 @@ const Login = () => {
         <div className="dessert-icon dessert-icon-1"></div>
         <div className="dessert-icon dessert-icon-2"></div>
         <div className="welcome-image" title="Welcome to Dessert Dash"></div>
-        <h2>Welcome Back!</h2>
+        <h2>Welcome back, the sweets missed you!</h2>
         {serverError && <div className="error-message">{serverError}</div>}
         
         <form onSubmit={handleSubmit} noValidate>

@@ -22,7 +22,6 @@
 }
 
 .auth-background::before {
-  backdrop-filter: blur(1.5px); 
   content: '';
   position: absolute;
   top: 0;
@@ -38,7 +37,7 @@
   flex-direction: column;
   align-content: center;
   width: 100%;
-  max-width: 750px;
+  max-width: 590px;
   margin: 5vh auto;
   padding: 3rem 3rem 3rem 5rem;
   border-radius: 15px;
