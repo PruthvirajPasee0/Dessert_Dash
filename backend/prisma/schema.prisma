@@ -26,7 +26,7 @@ model Sweet {
   category  String
   price     Decimal    @db.Decimal(10,2)
   quantity  Int
-  imageUrl  String?    // optional image URL / path
+  imageUrl  String?    @db.VarChar(500)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   purchases Purchase[]

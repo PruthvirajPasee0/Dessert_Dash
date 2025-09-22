@@ -66,33 +66,42 @@ const Profile = () => {
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
+        // Format example: 12 Jan 2021 (matches reference design)
+        return date
+            .toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            })
+            .replace(/,/g, '');
     };
 
+    const firstName = (profile?.name || '').split(' ')[0] || 'there';
+
     return (
-        <div className="profile-container">
-            <h1>Profile</h1>
-            <div className="profile-card">
-                <div className="profile-image-section">
-                    <div className="profile-image">
+        <div className="profile-page">
+            <div className="profile-card redesigned">
+                {/* Header: Avatar, Name/Email, and Upload CTA */}
+                <div className="profile-header-row">
+                    <div className="avatar">
                         {profile.imageUrl ? (
                             <img
-                                src={`http://dessertdash-production.up.railway.app${profile.imageUrl}`}
-                                alt={profile.name}
+                                src={`http://localhost:8000${profile.imageUrl}`}
+                                alt={`${profile.name}'s profile`}
                                 onError={(e) => {
                                     e.target.src = '/placeholder-profile.png';
                                     e.target.onerror = null;
                                 }}
                             />
                         ) : (
-                            <img src="/placeholder-profile.png" alt="haha"/>
+                            <img src="/placeholder-profile.png" alt="Profile placeholder" />
                         )}
                     </div>
-                    <div className="profile-image-upload">
+                    <div className="identity">
+                        <h2 className="profile-name">{profile.name}</h2>
+                        <div className="profile-email">{profile.email}</div>
+                    </div>
+                    <div className="header-action">
                         <input
                             type="file"
                             id="profile-image-input"
@@ -103,31 +112,51 @@ const Profile = () => {
                         />
                         <label
                             htmlFor="profile-image-input"
-                            className={`upload-button ${uploading ? 'uploading' : ''}`}
+                            className={`upload-cta ${uploading ? 'uploading' : ''}`}
+                            role="button"
+                            aria-live="polite"
                         >
-                            {uploading ? 'Uploading...' : 'Upload New Picture'}
+                            <svg
+                                className="btn-icon"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="18"
+                                height="18"
+                                aria-hidden="true"
+                            >
+                                <path d="M12 16V4m0 0l-4 4m4-4l4 4" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M20 16v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                            <span>{uploading ? 'Uploading...' : 'Upload New Picture'}</span>
                         </label>
-                        {uploadError && (
-                            <p className="upload-error">{uploadError}</p>
-                        )}
+                        {uploadError && <p className="upload-error">{uploadError}</p>}
                     </div>
                 </div>
-                <div className="profile-field">
-                    <label>Full Name</label>
-                    <p>{profile.name}</p>
+
+                {/* Details section */}
+                <div className="profile-details-card">
+                    <div className="detail-row">
+                        <span className="detail-label">Full Name</span>
+                        <span className="detail-value">{profile.name}</span>
+                    </div>
+                    <div className="detail-row">
+                        <span className="detail-label">Email</span>
+                        <span className="detail-value">{profile.email}</span>
+                    </div>
+                    <div className="detail-row">
+                        <span className="detail-label">Member Since</span>
+                        <span className="detail-value">{formatDate(profile.createdAt)}</span>
+                    </div>
+                    <div className="detail-row">
+                        <span className="detail-label">Account Type</span>
+                        <span className="detail-value capitalize">{profile.role}</span>
+                    </div>
                 </div>
-                <div className="profile-field">
-                    <label>Email</label>
-                    <p>{profile.email}</p>
-                </div>
-                <div className="profile-field">
-                    <label>Member Since</label>
-                    <p>{formatDate(profile.createdAt)}</p>
-                </div>
-                <div className="profile-field">
-                    <label>Account Type</label>
-                    <p className="capitalize">{profile.role}</p>
-                </div>
+
+                {/* Footnote */}
+                <p className="profile-footnote">
+                    Every sweet has a story—thanks for making ours sweeter, {firstName}.
+                </p>
             </div>
         </div>
     );

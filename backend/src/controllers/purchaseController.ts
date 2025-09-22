@@ -219,3 +219,60 @@ export const getUserPurchases = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Failed to fetch purchase history' });
     }
 };
+
+export const getAllPurchases = async (req: Request, res: Response) => {
+    try {
+        if (!(req.user?.role === 'admin')) {
+            return res.status(403).json({ message: 'Access denied. Admin only.' });
+        }
+
+        const purchases = await prisma.purchase.findMany({
+            include: {
+                sweet: true,
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        });
+
+        res.status(200).json(purchases);
+    } catch (error) {
+        console.error('Get all purchases error:', error);
+        res.status(500).json({ message: 'Failed to fetch purchases' });
+    }
+};
+
+// Delete a purchase (admin only)
+export const deletePurchase = async (req: Request, res: Response) => {
+    try {
+        if (!(req.user?.role === 'admin')) {
+            return res.status(403).json({ message: 'Access denied. Admin only.' });
+        }
+
+        const { id } = req.params;
+
+        const purchase = await prisma.purchase.findUnique({
+            where: { id }
+        });
+
+        if (!purchase) {
+            return res.status(404).json({ message: 'Purchase not found' });
+        }
+
+        await prisma.purchase.delete({
+            where: { id }
+        });
+
+        res.status(200).json({ message: 'Purchase deleted successfully' });
+    } catch (error) {
+        console.error('Delete purchase error:', error);
+        res.status(500).json({ message: 'Failed to delete purchase' });
+    }
+};
